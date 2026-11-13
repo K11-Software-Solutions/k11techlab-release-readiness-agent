@@ -1,0 +1,10 @@
+{
+  "name": "release-readiness",
+  "version": "0.1.0",
+  "description": "Release Readiness Agent for Claude Code: plans which checks a change needs, gathers UI, API contract, API functional and LLM red-team evidence in parallel with the K11 QA servers, and gets a deterministic ship / conditions / needs a person / block verdict from the K11 Release Gate.",
+  "author": { "name": "Kavita A. Jadhav", "url": "https://k11softwaresolutions.com" },
+  "homepage": "https://github.com/K11-Software-Solutions/k11techlab-release-readiness-agent",
+  "repository": "https://github.com/K11-Software-Solutions/k11techlab-release-readiness-agent",
+  "license": "MIT",
+  "keywords": ["release", "release-readiness", "agent", "quality-gate", "qa", "testing", "mcp"]
+}

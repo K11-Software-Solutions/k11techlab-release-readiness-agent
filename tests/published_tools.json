@@ -1,0 +1,74 @@
+{
+  "release-gate": {
+    "version": "0.2.0",
+    "tools": [
+      "collect_evidence",
+      "evaluate_release",
+      "init_policy",
+      "list_rules",
+      "plan_checks"
+    ]
+  },
+  "selenium-qa": {
+    "version": "0.2.1",
+    "tools": [
+      "capture_baseline",
+      "check_locator",
+      "explore_page",
+      "heal_locator",
+      "parse_user_story",
+      "run_tests",
+      "save_login_state",
+      "write_test"
+    ]
+  },
+  "api-contract-qa": {
+    "version": "0.1.0",
+    "tools": [
+      "assess_impact",
+      "check_deployed_contract",
+      "check_live_conformance",
+      "diff_contracts",
+      "discover_consumer_usage",
+      "generate_api_tests",
+      "list_operations",
+      "write_test"
+    ]
+  },
+  "api-functional-qa": {
+    "version": "0.1.1",
+    "tools": [
+      "call_api",
+      "draft_flow",
+      "export_pytest",
+      "generate_negative_tests",
+      "list_environments",
+      "query_db",
+      "run_flows",
+      "write_flow"
+    ]
+  },
+  "llm-assure": {
+    "version": "0.1.0",
+    "tools": [
+      "get_findings",
+      "list_probes",
+      "list_suites",
+      "run_assessment",
+      "send_probe"
+    ]
+  },
+  "playwright-qa": {
+    "version": "0.2.1",
+    "tools": [
+      "capture_baseline",
+      "check_locator",
+      "explore_page",
+      "heal_locator",
+      "parse_user_story",
+      "run_tests",
+      "save_login_state",
+      "write_test"
+    ]
+  }
+}

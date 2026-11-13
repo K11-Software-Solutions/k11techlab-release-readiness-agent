@@ -1,0 +1,33 @@
+{
+  "mcpServers": {
+    "release-gate": {
+      "command": "uvx",
+      "args": ["k11-release-gate-mcp"],
+      "env": { "QA_MCP_ROOT": "${CLAUDE_PROJECT_DIR}" }
+    },
+    "playwright-qa": {
+      "command": "npx",
+      "args": ["-y", "k11-playwright-qa-mcp"],
+      "env": { "QA_MCP_ROOT": "${CLAUDE_PROJECT_DIR}" }
+    },
+    "selenium-qa": {
+      "command": "uvx",
+      "args": ["k11-selenium-qa-mcp"],
+      "env": { "QA_MCP_ROOT": "${CLAUDE_PROJECT_DIR}" }
+    },
+    "api-contract-qa": {
+      "command": "uvx",
+      "args": ["k11-api-contract-qa-mcp"],
+      "env": { "QA_MCP_ROOT": "${CLAUDE_PROJECT_DIR}" }
+    },
+    "api-functional-qa": {
+      "command": "uvx",
+      "args": ["k11-api-functional-qa-mcp"],
+      "env": { "QA_MCP_ROOT": "${CLAUDE_PROJECT_DIR}" }
+    },
+    "llm-assure": {
+      "command": "uvx",
+      "args": ["k11-llm-assure-mcp"]
+    }
+  }
+}

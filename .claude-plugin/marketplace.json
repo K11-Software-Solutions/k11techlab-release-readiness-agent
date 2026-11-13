@@ -1,0 +1,15 @@
+{
+  "name": "k11-release-readiness",
+  "description": "K11 Release Readiness Agent: plans, gathers and explains a deterministic release decision with the K11 QA MCP servers.",
+  "owner": {
+    "name": "K11 Software Solutions",
+    "url": "https://k11softwaresolutions.com"
+  },
+  "plugins": [
+    {
+      "name": "release-readiness",
+      "source": "./",
+      "description": "Plans, gathers and explains a release decision with the six K11 QA MCP servers and sub-agents."
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+consumers:
+  - name: mobile-app
+    owner: "@team-mobile"
+    criticality: critical
+    uses:
+      - endpoint: GET /orders/{id}
+        reads: [id, status, total]

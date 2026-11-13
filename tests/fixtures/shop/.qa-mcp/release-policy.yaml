@@ -1,0 +1,3 @@
+name: Shop release policy
+required: []                 # evidence is required by what the change touches (triggers)
+approvers: ["@qa-lead"]

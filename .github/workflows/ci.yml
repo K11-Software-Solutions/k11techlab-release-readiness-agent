@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Install the published K11 servers
+        run: pip install pytest pyyaml k11-release-gate-mcp k11-selenium-qa-mcp k11-api-contract-qa-mcp k11-api-functional-qa-mcp k11-llm-assure-mcp
+      - name: Check the tool list is current
+        run: |
+          python tests/refresh_published_tools.py
+          git diff --exit-code tests/published_tools.json || (echo "::warning::published tools changed; commit the refreshed tests/published_tools.json" && exit 0)
+      - name: Tests
+        run: pytest -q tests
+      - name: Validate the plugin
+        run: |
+          npm install -g @anthropic-ai/claude-code
+          claude plugin validate . --strict

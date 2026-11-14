@@ -8,6 +8,12 @@
 
 The agent plans, runs and explains. **The decision comes from written rules, not from the model,** so the same evidence always gives the same verdict, and every reason points to an evidence file with its SHA-256.
 
+### ▶️ See it in one minute
+
+[![Watch the 1-minute overview of the Release Readiness Agent and its six MCP servers](docs/promo-thumbnail.jpg)](docs/promo.mp4)
+
+*56-second overview: plan, gather evidence with six MCP servers, get a verdict. Click to play, or [download the MP4](https://github.com/K11-Software-Solutions/k11techlab-release-readiness-agent/raw/main/docs/promo.mp4).*
+
 ## How it works
 
 ```

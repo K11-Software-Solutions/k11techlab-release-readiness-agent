@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Release Readiness Agent · 1-minute overview</title>
+<meta name="description" content="A Claude Code plugin that answers 'can we ship this branch?' with evidence from six open-source MCP servers and a deterministic verdict.">
+<meta property="og:title" content="K11 Release Readiness Agent: 1-minute overview">
+<meta property="og:description" content="Plan the checks, gather evidence with six MCP servers, get a verdict you can defend.">
+<meta property="og:image" content="https://k11-software-solutions.github.io/k11techlab-release-readiness-agent/promo-thumbnail.jpg">
+<meta property="og:type" content="video.other">
+<meta property="og:video" content="https://k11-software-solutions.github.io/k11techlab-release-readiness-agent/promo.mp4">
+<style>
+:root{--bg:#0a1028;--text:#eef2f8;--muted:#a9b7cc;--teal:#2dd4bf;--line:#24344f}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:"Segoe UI",Inter,system-ui,-apple-system,sans-serif;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:32px 16px}
+main{width:100%;max-width:1100px}
+h1{font-size:clamp(24px,4vw,38px);font-weight:800;margin-bottom:6px}
+h1 span{color:var(--teal)}
+p{color:var(--muted);margin-bottom:22px;font-size:17px}
+video{width:100%;height:auto;border-radius:14px;border:1px solid var(--line);background:#000;display:block}
+.links{margin-top:22px;display:flex;flex-wrap:wrap;gap:12px}
+a.btn{display:inline-block;padding:12px 22px;border-radius:999px;text-decoration:none;font-weight:700}
+a.primary{background:var(--teal);color:#062a26}
+a.ghost{border:1px solid var(--line);color:var(--text)}
+code{display:block;margin-top:22px;background:#060a18;border:1px solid var(--line);border-radius:10px;padding:14px 18px;color:var(--text);font-size:14px;overflow-x:auto;white-space:pre}
+</style>
+</head>
+<body>
+<main>
+  <h1>Release Readiness <span>Agent</span></h1>
+  <p>Ask “can we ship this branch?” and get a verdict you can defend. A Claude Code plugin powered by six open-source MCP servers.</p>
+  <video controls playsinline preload="metadata" poster="promo-thumbnail.jpg">
+    <source src="promo.mp4" type="video/mp4">
+    Your browser can't play this video. <a href="promo.mp4">Download the MP4</a>.
+  </video>
+  <code>/plugin marketplace add K11-Software-Solutions/k11techlab-release-readiness-agent
+/plugin install release-readiness@k11-release-readiness</code>
+  <div class="links">
+    <a class="btn primary" href="https://github.com/K11-Software-Solutions/k11techlab-release-readiness-agent">View on GitHub</a>
+    <a class="btn ghost" href="https://github.com/K11-Software-Solutions">All K11 open-source tools</a>
+  </div>
+</main>
+</body>
+</html>

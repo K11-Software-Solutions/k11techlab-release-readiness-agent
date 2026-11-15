@@ -1,0 +1,5 @@
+environment: local
+engine: builtin
+profile: { vus: 3, duration: 3s, ramp_up: 0s, think_time_ms: 10 }
+slos:
+  "*": { p95_ms: 2000, error_rate: 0.05 }

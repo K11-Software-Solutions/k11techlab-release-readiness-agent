@@ -30,7 +30,7 @@ def test_manifests_and_servers():
     assert plugin["name"] == market["plugins"][0]["name"] == "release-readiness"
     servers = json.loads((ROOT / ".mcp.json").read_text())["mcpServers"]
     assert set(servers) == set(PUBLISHED) == {"release-gate", "playwright-qa", "selenium-qa", "api-contract-qa",
-                                              "api-functional-qa", "llm-assure"}
+                                              "api-functional-qa", "performance-qa", "llm-assure"}
     for name, s in servers.items():
         assert s["command"] in ("uvx", "npx")
         assert any(a.startswith("k11-") for a in s["args"]), name
@@ -38,7 +38,8 @@ def test_manifests_and_servers():
 
 def test_agents_and_skill_frontmatter():
     agents = sorted((ROOT / "agents").glob("*.md"))
-    assert [a.stem for a in agents] == ["api-contract-evidence", "api-functional-evidence", "llm-evidence", "ui-evidence"]
+    assert [a.stem for a in agents] == ["api-contract-evidence", "api-functional-evidence", "llm-evidence", "perf-evidence",
+                                         "ui-evidence"]
     for a in agents:
         fm, body = frontmatter(a)
         assert fm["name"] == a.stem and len(fm["description"]) > 40 and fm.get("model") in ("sonnet", "opus", "haiku")
@@ -56,13 +57,13 @@ def test_every_referenced_tool_exists_in_the_published_servers():
     assert referenced, "no tool references found"
     missing = sorted(t for t in referenced if t not in ALL_TOOLS and t not in known_words)
     assert not missing, f"tools referenced but not in any published server: {missing}"
-    for must in ("plan_checks", "evaluate_release", "collect_evidence", "list_environments"):
+    for must in ("plan_checks", "evaluate_release", "collect_evidence", "list_environments", "perf_config", "get_report"):
         assert must in referenced and must in ALL_TOOLS
 
 
 def test_published_versions_have_what_the_agent_needs():
     assert "plan_checks" in PUBLISHED["release-gate"]["tools"]
-    assert tuple(map(int, PUBLISHED["release-gate"]["version"].split("."))) >= (0, 2, 0)
+    assert tuple(map(int, PUBLISHED["release-gate"]["version"].split("."))) >= (0, 3, 0)  # reads perf evidence
 
 
 # ---- the exact pipeline the agents run, with the published CLIs -------------------------------------
@@ -85,8 +86,8 @@ def run(cwd, *cmd, env=None):
 
 
 def test_agent_pipeline_end_to_end(tmp_path):
-    gate, contract, functional = (_exe("k11-release-gate-mcp"), _exe("k11-api-contract-qa-mcp"),
-                                  _exe("k11-api-functional-qa-mcp"))
+    gate, contract, functional, perf = (_exe("k11-release-gate-mcp"), _exe("k11-api-contract-qa-mcp"),
+                                        _exe("k11-api-functional-qa-mcp"), _exe("k11-performance-qa-mcp"))
     repo = tmp_path / "shop"
     shutil.copytree(FIXTURE, repo, ignore=shutil.ignore_patterns("__pycache__", "*.db"))
     git(repo, "init", "-q", "-b", "main")
@@ -99,12 +100,16 @@ def test_agent_pipeline_end_to_end(tmp_path):
     spec = spec.replace("required: [id, customerId, status, total, channel, items]", "required: [id, customerId, status, channel, items]")
     spec = spec.replace("        total: { type: number }\n", "")
     (repo / "openapi.yaml").write_text(spec)
+    # ...and adds a migration, which makes a load test necessary
+    (repo / "db" / "migrations").mkdir(parents=True)
+    (repo / "db" / "migrations" / "0002_order_index.sql").write_text("CREATE INDEX idx_orders_customer ON orders(customer_id);\n")
     env = {"QA_MCP_ROOT": str(repo), "PYTHONIOENCODING": "utf-8"}
 
     # 1. plan (the skill's step 1)
     p = run(repo, gate, "plan", "--base", "base", env=env)
     assert p.returncode == 0, p.stderr
     assert "NEEDED  API contract" in p.stdout and "NEEDED  API functional tests" in p.stdout
+    assert "NEEDED  Performance (load tests)" in p.stdout
     assert "skip    LLM red-team" in p.stdout and "skip    UI tests" in p.stdout
 
     # 2. contract evidence (api-contract-evidence agent's command)
@@ -123,10 +128,16 @@ def test_agent_pipeline_end_to_end(tmp_path):
     try:
         f = run(repo, functional, "run", "--env", "local", "--fail-on", "never",
                 env={**env, "SHOP_URL": shop.url, "SHOP_TOKEN": "test-token"})
+        # 3b. performance evidence (perf-evidence agent's command), same service
+        pf = run(repo, perf, "run", "--env", "local", "--fail-on", "never",
+                 env={**env, "SHOP_URL": shop.url, "SHOP_TOKEN": "test-token"})
     finally:
         shop.close()
     assert f.returncode == 0, f.stderr
     assert (repo / ".qa-mcp/api-test-report/api-test-report.json").is_file()
+    assert pf.returncode == 0, pf.stderr
+    perf_doc = json.loads((repo / ".qa-mcp/perf-report/perf-report.json").read_text("utf8"))
+    assert perf_doc["status"] == "completed" and perf_doc["summary"]["requests"] > 0
 
     # 4. decide (the skill's step 4)
     d = run(repo, gate, "evaluate", "--base", "base", "--label", "pr-123", "--fail-on", "never", env=env)
@@ -136,5 +147,7 @@ def test_agent_pipeline_end_to_end(tmp_path):
     assert decision["verdict"] == "block"
     assert "contract.breaks_critical_consumer" in rules      # mobile-app reads `total`
     assert "api.flow_failed" in rules                         # the shop's wrong order total
-    assert decision["plan"]["needed"] == ["contract", "api_tests"]
+    assert "perf.no_baseline" in rules                        # load test ran; no baseline from main yet
+    assert decision["plan"]["needed"] == ["contract", "api_tests", "perf"]
+    assert {e["kind"] for e in decision["evidence"]} == {"contract", "api_tests", "perf"}
     assert "llm" in decision["not_tested"] and "ui_heal" in decision["not_tested"]

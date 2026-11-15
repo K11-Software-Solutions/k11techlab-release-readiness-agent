@@ -1,6 +1,6 @@
 {
   "release-gate": {
-    "version": "0.2.0",
+    "version": "0.3.0",
     "tools": [
       "collect_evidence",
       "evaluate_release",
@@ -46,6 +46,16 @@
       "query_db",
       "run_flows",
       "write_flow"
+    ]
+  },
+  "performance-qa": {
+    "version": "0.1.0",
+    "tools": [
+      "get_report",
+      "init_perf_config",
+      "perf_config",
+      "run_load_test",
+      "save_baseline"
     ]
   },
   "llm-assure": {

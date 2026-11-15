@@ -32,6 +32,7 @@ SERVERS = {
     "selenium-qa": ("k11-selenium-qa-mcp", []),
     "api-contract-qa": ("k11-api-contract-qa-mcp", []),
     "api-functional-qa": ("k11-api-functional-qa-mcp", []),
+    "performance-qa": ("k11-performance-qa-mcp", []),
     "llm-assure": ("k11-llm-assure-mcp", []),
     "playwright-qa": ("npx", ["-y", "k11-playwright-qa-mcp"]),
 }

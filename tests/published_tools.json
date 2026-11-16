@@ -52,6 +52,7 @@
     "version": "0.1.0",
     "tools": [
       "get_report",
+      "import_jmeter_results",
       "init_perf_config",
       "perf_config",
       "run_load_test",

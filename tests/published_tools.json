@@ -1,6 +1,6 @@
 {
   "release-gate": {
-    "version": "0.3.0",
+    "version": "0.4.0",
     "tools": [
       "collect_evidence",
       "evaluate_release",
@@ -10,7 +10,7 @@
     ]
   },
   "selenium-qa": {
-    "version": "0.2.1",
+    "version": "0.2.2",
     "tools": [
       "capture_baseline",
       "check_locator",
@@ -59,6 +59,17 @@
       "save_baseline"
     ]
   },
+  "api-security-qa": {
+    "version": "0.1.0",
+    "tools": [
+      "get_report",
+      "init_security_config",
+      "judge_scanner_results",
+      "run_security_tests",
+      "save_scanner_baseline",
+      "security_config"
+    ]
+  },
   "llm-assure": {
     "version": "0.1.0",
     "tools": [
@@ -70,12 +81,13 @@
     ]
   },
   "playwright-qa": {
-    "version": "0.2.1",
+    "version": "0.3.0",
     "tools": [
       "capture_baseline",
       "check_locator",
       "explore_page",
       "heal_locator",
+      "list_devices",
       "parse_user_story",
       "run_tests",
       "save_login_state",

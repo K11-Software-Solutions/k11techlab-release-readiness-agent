@@ -1,6 +1,6 @@
 ---
 name: check
-description: Decide whether the current branch can be released. Plans which checks the change needs, gathers evidence in parallel (UI tests with self-healing, API contract, API functional tests, performance under load, LLM red-team), gets a deterministic verdict from the K11 Release Gate, and explains it. Use before merging or tagging a release.
+description: Decide whether the current branch can be released. Plans which checks the change needs, gathers evidence in parallel (UI tests with self-healing, API contract, API functional tests, performance under load, API security, LLM red-team), gets a deterministic verdict from the K11 Release Gate, and explains it. Use before merging or tagging a release.
 argument-hint: "[base ref, default origin/main] [release label]"
 ---
 
@@ -12,15 +12,16 @@ Input: $ARGUMENTS (optional base git ref, default `origin/main`; optional releas
 
 ## 1. Plan
 
-Call the release-gate `plan_checks` tool with the base ref. It returns which kinds of evidence this change needs (`ui_heal`, `contract`, `api_tests`, `llm`, `perf`), the changed files that triggered each, and the tool that produces it. Show the user the plan in one short table: kind, needed or skipped, and why.
+Call the release-gate `plan_checks` tool with the base ref. It returns which kinds of evidence this change needs (`ui_heal`, `contract`, `api_tests`, `llm`, `perf`, `security`), the changed files that triggered each, and the tool that produces it. Show the user the plan in one short table: kind, needed or skipped, and why.
 
 If `plan_checks` fails because the base ref doesn't exist, ask which branch to compare with.
 
 ## 2. Confirm before anything touches an environment
 
-API functional tests, load tests and LLM red-teaming send requests to running systems. Before starting them:
+API functional tests, load tests, security tests and LLM red-teaming send requests to running systems. Before starting them:
 - call api-functional-qa `list_environments` and tell the user which environment will be used and whether it allows writes;
 - for load tests, call performance-qa `perf_config` and confirm the environment allows load (it explains why or why not) and which scenario will run;
+- for security tests, call api-security-qa `security_config`: confirm the environment and that the identities are TEST accounts;
 - for the LLM red-team, confirm the target file and that the user owns or is authorised to test that system.
 
 Never point any check at production. If the only configured environment is production-like, stop that check and say so.
@@ -36,8 +37,9 @@ For every needed kind, start its sub-agent at the same time (one Agent call each
 | `api_tests` | `release-readiness:api-functional-evidence` |
 | `llm` | `release-readiness:llm-evidence` |
 | `perf` | `release-readiness:perf-evidence` |
+| `security` | `release-readiness:security-evidence` |
 
-Give each the base ref, the environment or target the user confirmed, and the evidence path from the release policy (`collect_evidence` shows the patterns; the defaults are `.qa-mcp/heal-report/heal-report.json`, `.qa-mcp/contract-report/contract-report.json`, `.qa-mcp/api-test-report/api-test-report.json`, `.qa-mcp/perf-report/perf-report.json`, `llm-assure-report/assessment.json`). Each sub-agent writes its report there and returns a short summary. Skip kinds that aren't needed.
+Give each the base ref, the environment or target the user confirmed, and the evidence path from the release policy (`collect_evidence` shows the patterns; the defaults are `.qa-mcp/heal-report/heal-report.json`, `.qa-mcp/contract-report/contract-report.json`, `.qa-mcp/api-test-report/api-test-report.json`, `.qa-mcp/perf-report/perf-report.json`, `.qa-mcp/security-report/security-report.json`, `llm-assure-report/assessment.json`). Each sub-agent writes its report there and returns a short summary. Skip kinds that aren't needed.
 
 ## 4. Decide
 

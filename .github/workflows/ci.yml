@@ -20,7 +20,7 @@ jobs:
         with:
           node-version: "20"
       - name: Install the published K11 servers
-        run: pip install pytest pyyaml "k11-release-gate-mcp>=0.3.0" k11-selenium-qa-mcp k11-api-contract-qa-mcp k11-api-functional-qa-mcp k11-performance-qa-mcp k11-llm-assure-mcp
+        run: pip install pytest pyyaml "k11-release-gate-mcp>=0.4.0" k11-selenium-qa-mcp k11-api-contract-qa-mcp k11-api-functional-qa-mcp k11-performance-qa-mcp k11-api-security-qa-mcp k11-llm-assure-mcp
       - name: Check the tool list is current
         run: |
           python tests/refresh_published_tools.py

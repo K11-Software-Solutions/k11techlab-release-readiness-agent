@@ -64,6 +64,17 @@
         "QA_MCP_ROOT": "${CLAUDE_PROJECT_DIR}"
       }
     },
+    "integration-qa": {
+      "command": "uvx",
+      "args": [
+        "--from",
+        "k11-integration-qa-mcp[kafka]",
+        "k11-integration-qa-mcp"
+      ],
+      "env": {
+        "QA_MCP_ROOT": "${CLAUDE_PROJECT_DIR}"
+      }
+    },
     "llm-assure": {
       "command": "uvx",
       "args": [

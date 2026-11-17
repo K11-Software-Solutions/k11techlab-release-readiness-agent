@@ -9,7 +9,7 @@
     {
       "name": "release-readiness",
       "source": "./",
-      "description": "Plans, gathers and explains a release decision with the six K11 QA MCP servers and sub-agents."
+      "description": "Plans, gathers and explains a release decision with the nine K11 QA MCP servers and sub-agents."
     }
   ]
 }

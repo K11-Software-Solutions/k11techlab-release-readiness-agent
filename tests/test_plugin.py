@@ -30,7 +30,8 @@ def test_manifests_and_servers():
     assert plugin["name"] == market["plugins"][0]["name"] == "release-readiness"
     servers = json.loads((ROOT / ".mcp.json").read_text())["mcpServers"]
     assert set(servers) == set(PUBLISHED) == {"release-gate", "playwright-qa", "selenium-qa", "api-contract-qa",
-                                              "api-functional-qa", "performance-qa", "api-security-qa", "llm-assure"}
+                                              "api-functional-qa", "performance-qa", "api-security-qa", "integration-qa",
+                                              "llm-assure"}
     for name, s in servers.items():
         assert s["command"] in ("uvx", "npx")
         assert any(a.startswith("k11-") for a in s["args"]), name
@@ -38,8 +39,8 @@ def test_manifests_and_servers():
 
 def test_agents_and_skill_frontmatter():
     agents = sorted((ROOT / "agents").glob("*.md"))
-    assert [a.stem for a in agents] == ["api-contract-evidence", "api-functional-evidence", "llm-evidence", "perf-evidence",
-                                         "security-evidence", "ui-evidence"]
+    assert [a.stem for a in agents] == ["api-contract-evidence", "api-functional-evidence", "integration-evidence", "llm-evidence",
+                                         "perf-evidence", "security-evidence", "ui-evidence"]
     for a in agents:
         fm, body = frontmatter(a)
         assert fm["name"] == a.stem and len(fm["description"]) > 40 and fm.get("model") in ("sonnet", "opus", "haiku")
@@ -57,13 +58,14 @@ def test_every_referenced_tool_exists_in_the_published_servers():
     assert referenced, "no tool references found"
     missing = sorted(t for t in referenced if t not in ALL_TOOLS and t not in known_words)
     assert not missing, f"tools referenced but not in any published server: {missing}"
-    for must in ("plan_checks", "evaluate_release", "collect_evidence", "list_environments", "perf_config", "get_report", "security_config"):
+    for must in ("plan_checks", "evaluate_release", "collect_evidence", "list_environments", "perf_config", "get_report", "security_config",
+                 "integration_config"):
         assert must in referenced and must in ALL_TOOLS
 
 
 def test_published_versions_have_what_the_agent_needs():
     assert "plan_checks" in PUBLISHED["release-gate"]["tools"]
-    assert tuple(map(int, PUBLISHED["release-gate"]["version"].split("."))) >= (0, 4, 0)  # reads perf and security evidence
+    assert tuple(map(int, PUBLISHED["release-gate"]["version"].split("."))) >= (0, 4, 0)  # reads perf, security and integration evidence
 
 
 # ---- the exact pipeline the agents run, with the published CLIs -------------------------------------

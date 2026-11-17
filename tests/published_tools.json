@@ -70,6 +70,17 @@
       "security_config"
     ]
   },
+  "integration-qa": {
+    "version": "0.1.0",
+    "tools": [
+      "get_report",
+      "init_integration_config",
+      "integration_config",
+      "run_integration_tests",
+      "validate_flow",
+      "watch_topic"
+    ]
+  },
   "llm-assure": {
     "version": "0.1.0",
     "tools": [

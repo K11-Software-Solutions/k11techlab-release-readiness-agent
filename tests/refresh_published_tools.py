@@ -34,6 +34,7 @@ SERVERS = {
     "api-functional-qa": ("k11-api-functional-qa-mcp", []),
     "performance-qa": ("k11-performance-qa-mcp", []),
     "api-security-qa": ("k11-api-security-qa-mcp", []),
+    "integration-qa": ("k11-integration-qa-mcp", []),
     "llm-assure": ("k11-llm-assure-mcp", []),
     "playwright-qa": ("npx", ["-y", "k11-playwright-qa-mcp"]),
 }

@@ -67,6 +67,8 @@ Needs [uv](https://docs.astral.sh/uv/) (for `uvx`) and Node 20+ (for `npx`). The
 /plugin install release-readiness@k11-release-readiness
 ```
 
+**The same verdict in CI:** the agent is for asking before you merge; the **[k11 Release Gate Action](https://github.com/K11-Software-Solutions/k11techlab-release-gate-action)** enforces the same policy on every pull request (`uses: K11-Software-Solutions/k11techlab-release-gate-action@v1`).
+
 ## Set up your project
 
 The agent works with whatever evidence your project can produce; nothing is mandatory except a release policy:
@@ -91,7 +93,7 @@ The agent works with whatever evidence your project can produce; nothing is mand
 
 ## The K11 QA suite
 
-[Playwright QA](https://github.com/K11-Software-Solutions/k11techlab-playwright-qa-mcp) · [Selenium QA](https://github.com/K11-Software-Solutions/k11techlab-selenium-qa-mcp) · [API Contract QA](https://github.com/K11-Software-Solutions/k11techlab-api-contract-qa-mcp) · [API Functional QA](https://github.com/K11-Software-Solutions/k11techlab-api-functional-qa-mcp) · [Performance QA](https://github.com/K11-Software-Solutions/k11techlab-performance-qa-mcp) · [API Security QA](https://github.com/K11-Software-Solutions/k11techlab-api-security-qa-mcp) · [Integration QA](https://github.com/K11-Software-Solutions/k11techlab-integration-qa-mcp) · [LLM Assure](https://github.com/K11-Software-Solutions/k11techlab-llm-assurance-toolkit) · [Release Gate](https://github.com/K11-Software-Solutions/k11techlab-release-gate-mcp)
+[Playwright QA](https://github.com/K11-Software-Solutions/k11techlab-playwright-qa-mcp) · [Selenium QA](https://github.com/K11-Software-Solutions/k11techlab-selenium-qa-mcp) · [Appium QA](https://github.com/K11-Software-Solutions/k11techlab-appium-qa-mcp) · [API Contract QA](https://github.com/K11-Software-Solutions/k11techlab-api-contract-qa-mcp) · [API Functional QA](https://github.com/K11-Software-Solutions/k11techlab-api-functional-qa-mcp) · [Performance QA](https://github.com/K11-Software-Solutions/k11techlab-performance-qa-mcp) · [API Security QA](https://github.com/K11-Software-Solutions/k11techlab-api-security-qa-mcp) · [Integration QA](https://github.com/K11-Software-Solutions/k11techlab-integration-qa-mcp) · [LLM Assure](https://github.com/K11-Software-Solutions/k11techlab-llm-assurance-toolkit) · [Release Gate](https://github.com/K11-Software-Solutions/k11techlab-release-gate-mcp) · [Release Gate Action](https://github.com/K11-Software-Solutions/k11techlab-release-gate-action)
 
 The design follows the K11 research on [risk-proportionate human-in-the-loop control in agentic CI/CD](https://doi.org/10.18535/ijecs/v15i06.5563) (IJECS, 2026): automate the clear cases, and send the uncertain ones to a named person with the evidence attached.
 

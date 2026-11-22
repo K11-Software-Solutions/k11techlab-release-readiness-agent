@@ -71,6 +71,8 @@ Needs [uv](https://docs.astral.sh/uv/) (for `uvx`) and Node 20+ (for `npx`). The
 
 ## Set up your project
 
+> All K11 QA tools keep their settings, baselines and reports in `.qa-mcp/`. [What each file is for, and what to commit](https://github.com/K11-Software-Solutions/k11techlab-release-gate-mcp/blob/main/docs/qa-mcp-folder.md).
+
 The agent works with whatever evidence your project can produce; nothing is mandatory except a release policy:
 
 | To get… | Add |
